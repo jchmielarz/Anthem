@@ -20,7 +20,7 @@
 #define END_IF anthem::opcodes::end_block,anthem::opcodes::end_if,
 #define THEN anthem::opcodes::end_eval,anthem::opcodes::block,
 #define ELSE anthem::opcodes::end_block,anthem::opcodes::eval, int, \
- anthem::opcodes::equals, int, anthem::opcodes::end_eval, anthem::opcodes::block,
+ anthem::opcodes::equals, int,
 #define ELSE_IF anthem::opcodes::end_block,anthem::opcodes::eval,
 
 #define SET anthem::opcodes::set,

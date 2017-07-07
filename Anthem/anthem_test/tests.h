@@ -241,7 +241,7 @@ private:
 					VAR(test_int), equals, int,
 						and,
 					float, equals, VAR(test_float),
-					and,
+						and,
 					std::true_type,
 				end_eval,
 			end_block
@@ -249,8 +249,8 @@ private:
 
 		using eval_block_order = typename anthem_parse_adapter<
 			block,
-			set, VAR(test), int,
-			set, VAR(test), float,
+				set, VAR(test), int,
+				set, VAR(test), float,
 			end_block
 		>::compilation::anthem;
 		using test = typename
@@ -322,10 +322,10 @@ private:
 		ANTHEM_SCRIPT_BEGIN
 			SET VAR(int_t), int,
 
-			IF VAR(int_t), EQUALS int,
+			IF VAR(int_t), EQUALS int, 
 			THEN
 				SET VAR(float_t), float,
-			ELSE
+			ELSE THEN
 				SET VAR(float_t), void,
 			END_IF
 		ANTHEM_SCRIPT_END

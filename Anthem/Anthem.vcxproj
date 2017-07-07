@@ -142,9 +142,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="anthem\anthem.h" />
     <ClInclude Include="anthem\containers\map.h" />
     <ClInclude Include="anthem\opcodes\and.h" />
@@ -169,6 +166,9 @@
   <ItemGroup>
     <ClCompile Include="anthem\utils\split_string.h" />
     <ClCompile Include="Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Readme.md" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
