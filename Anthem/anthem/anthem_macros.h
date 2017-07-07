@@ -1,15 +1,18 @@
 #pragma once
-#define VAR(a) anthem::opcodes::var<ANTHEM_STRING_SPLIT(#a)>
+//utils
+#include "utils\split_string.h"
+
 
 //general usage
 #define ANTHEM_SCRIPT_BEGIN \
-	typename anthem::utils::anthem_compilation_adapter<anthem::opcodes::dummy,
+	typename anthem::utils::anthem_parse_adapter<anthem::opcodes::dummy,
 #define ANTHEM_SCRIPT_END \
 	anthem::opcodes::dummy>::compilation::anthem;
-
 #define ANTHEM_GET_VAR(anthem_script, tag) typename anthem_script::variable_map::get_value<anthem::opcodes::var<ANTHEM_STRING_SPLIT(#tag)>>
 
 //opcodes
+#define VAR(a) anthem::opcodes::var<ANTHEM_STRING_SPLIT(#a)>
+
 #define BLOCK anthem::opcodes::block,
 #define END_BLOCK anthem::opcodes::end_block,
 

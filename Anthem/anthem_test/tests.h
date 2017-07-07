@@ -2,6 +2,7 @@
 #include <type_traits>
 #include "anthem/anthem.h"
 
+//testing utils
 template<typename T>
 struct size {
 	using value = std::integral_constant<size_t, 0>;
@@ -18,11 +19,6 @@ struct TD;
 class AnthemTest {
 public:
 	static void runTests() {
-		list_test();
-		map_test();
-		anthem_set_test();
-		anthem_eval_parse_test();
-		anthem_eval_test_w_var();
 	}
 
 private:
@@ -102,15 +98,13 @@ private:
 
 	}
 
-
-
 	static void anthem_set_test() {
 		using namespace anthem::utils;
 		using namespace anthem::containers;
 		using namespace anthem::opcodes;
 		using namespace anthem::opcode_s;
 
-		using simple_comp = anthem_compilation_adapter<
+		using simple_comp = anthem_parse_adapter<
 			set, VAR(test), int,
 			set, VAR(test), float,
 			set, VAR(test2), list<int, float, bool>
@@ -133,13 +127,7 @@ private:
 		using namespace anthem::containers;
 		using namespace anthem::opcodes;
 		using namespace anthem::opcode_s;
-
-		using eval_p = anthem::opcodes::detail
-			::eval_parse_impl<1,
-			list<>,
-			list<int, equals, int>
-			>::value;
-
+		
 		using eval_p1 = anthem::opcodes::detail::eval_parse<5,
 			list<
 			int, equals, int, and, float, equals, float
@@ -164,24 +152,24 @@ private:
 		using namespace anthem::opcode_s;
 
 		//int == int && float == float && true
-		using eval_comp_true = anthem_compilation_adapter<
+		using eval_comp_true = anthem_parse_adapter<
 			eval,
-			int, equals, int,
-			and,
-			float, equals, float,
-			and,
-			std::true_type,
+				int, equals, int,
+					and,
+				float, equals, float,
+					and,
+				std::true_type,
 			end_eval
 		>::compilation::anthem;
 		using eval_result_true = 
 			eval_comp_true::variable_map::get_value<VAR(@EVAL)>;
 
 		//int == bool && float == float
-		using eval_comp_false = anthem_compilation_adapter<
+		using eval_comp_false = anthem_parse_adapter<
 			eval,
-			int, equals, bool,
-			and,
-			float, equals, float,
+				int, equals, bool,
+					and,
+				float, equals, float,
 			end_eval
 		>::compilation::anthem;
 		using eval_result_false =
@@ -203,15 +191,15 @@ private:
 		//var test_int = int
 		//var test_float = float
 		//test_int == int && float == test_float && true
-		using eval_comp_true = anthem_compilation_adapter<
+		using eval_comp_true = anthem_parse_adapter<
 			set, VAR(test_int), int,
 			set, VAR(test_float), float,
 			eval,
-			VAR(test_int), equals, int,
-			and,
-			float, equals, VAR(test_float),
-			and,
-			std::true_type,
+				VAR(test_int), equals, int,
+					and,
+				float, equals, VAR(test_float),
+					and,
+				std::true_type,
 			end_eval
 		>::compilation::anthem;
 		using eval_result_true = eval_comp_true::variable_map::get_value<VAR(@EVAL)>;
@@ -219,13 +207,13 @@ private:
 		//var test_bool = bool
 		//var test_float = float
 		//test_bool == int && float == test_float
-		using eval_comp_false = anthem_compilation_adapter<
+		using eval_comp_false = anthem_parse_adapter<
 			set, VAR(test_bool), bool,
 			set, VAR(test_float), float,
 			eval,
-			VAR(test_bool), equals, int,
-			and,
-			float, equals, VAR(test_float),
+				VAR(test_bool), equals, int,
+					and,
+				float, equals, VAR(test_float),
 			end_eval
 		>::compilation::anthem;
 		using eval_result_false = eval_comp_false::variable_map::get_value<VAR(@EVAL)>;
@@ -245,21 +233,21 @@ private:
 		using namespace anthem::opcode_s;
 
 
-		using eval_comp_true = typename anthem_compilation_adapter<
+		using eval_comp_true = typename anthem_parse_adapter<
 			block,
-			set, VAR(test_int), int,
-			set, VAR(test_float), float,
-			eval,
-			VAR(test_int), equals, int,
-			and,
-			float, equals, VAR(test_float),
-			and,
-			std::true_type,
-			end_eval,
+				set, VAR(test_int), int,
+				set, VAR(test_float), float,
+				eval,
+					VAR(test_int), equals, int,
+						and,
+					float, equals, VAR(test_float),
+					and,
+					std::true_type,
+				end_eval,
 			end_block
 		>::compilation::anthem;
 
-		using eval_block_order = typename anthem_compilation_adapter<
+		using eval_block_order = typename anthem_parse_adapter<
 			block,
 			set, VAR(test), int,
 			set, VAR(test), float,
@@ -291,7 +279,7 @@ private:
 		using namespace anthem::opcodes;
 		using namespace anthem::opcode_s;
 
-		using if_test = typename anthem_compilation_adapter<
+		using if_test = typename anthem_parse_adapter<
 			//true case
 			set, VAR(int), int,
 			if_, 

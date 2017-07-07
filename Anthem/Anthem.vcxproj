@@ -156,25 +156,18 @@
     <ClInclude Include="anthem\opcodes\equals.h" />
     <ClInclude Include="anthem\opcodes\eval.h" />
     <ClInclude Include="anthem\opcodes\if.h" />
-    <ClInclude Include="anthem\opcodes\init.h" />
     <ClInclude Include="anthem\opcodes\opcodes.h" />
     <ClInclude Include="anthem\containers\list.h" />
-    <ClInclude Include="anthem\opcodes\opcode_utils.h" />
     <ClInclude Include="anthem\opcodes\run.h" />
     <ClInclude Include="anthem\opcodes\set.h" />
-    <ClInclude Include="anthem\opcodes\skip_until.h" />
-    <ClInclude Include="anthem\opcodes\stack_opcode.h" />
-    <ClInclude Include="anthem\opcodes\tag.h" />
-    <ClInclude Include="anthem\opcodes\transformation.h" />
-    <ClInclude Include="anthem\opcodes\transformation\structures.h" />
     <ClInclude Include="anthem\utils\anthem_adapter.h" />
     <ClInclude Include="anthem\utils\utils.h" />
-    <ClInclude Include="anthem\utils\macro_utils.h" />
     <ClInclude Include="anthem\opcodes\var.h" />
     <ClInclude Include="anthem_test\tests.h" />
     <ClInclude Include="anthem\containers\pair.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="anthem\utils\split_string.h" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

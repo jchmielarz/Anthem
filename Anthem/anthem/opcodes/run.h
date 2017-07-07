@@ -9,10 +9,10 @@ namespace anthem {
 
 	//compilation
 	template<typename... OPCODES>
-	struct anthem_compilation<opcodes::run, OPCODES...>
+	struct anthem_parse<opcodes::run, OPCODES...>
 	{
 	public:
-		using compilation = anthem_compilation<OPCODES...>;
+		using compilation = anthem_parse<OPCODES...>;
 
 	private:
 		template<typename STACK>

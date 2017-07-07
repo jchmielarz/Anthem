@@ -9,9 +9,8 @@ namespace anthem {
 namespace opcodes {
 struct if_;
 struct end_if;
-
 struct if_execute;
-}
+}//namespace anthem::opcodes
 
 namespace opcode_s {
 template<typename... CASES>
@@ -23,7 +22,7 @@ struct if_eval_s;
 
 template<typename EVAL, typename BLOCK>
 struct case_s;
-}
+}//namespace::opcode_s
 
 namespace opcodes {
 namespace detail {
@@ -112,19 +111,17 @@ struct if_evaluator<CONTEXT> {
 };
 
 
-
-
-}
-}
+}//namespace details
+}//namespace opcodes
 
 
 //compilation
 template<typename... OPCODES>
-struct anthem_compilation<opcodes::end_if, OPCODES...>
-	: public anthem_compilation<OPCODES...>
+struct anthem_parse<opcodes::end_if, OPCODES...>
+	: public anthem_parse<OPCODES...>
 {
-	using previous_state = anthem_compilation<OPCODES...>;
-//private:
+	using previous_state = anthem_parse<OPCODES...>;
+private:
 	using stack_till_if = typename previous_state::stack
 		::template split<opcodes::if_>;
 	using case_data = typename stack_till_if::value::reverse;
@@ -141,7 +138,5 @@ struct anthem<opcode_s::if_s<CASES...>, OPCODES...>
 	//we prepend the block with opcodes to execute
 	typename opcodes::detail::if_evaluator<anthem<OPCODES...>, CASES...>::value,
 	OPCODES...> {
-
-	using BLOCK = typename opcodes::detail::if_evaluator<anthem<OPCODES...>, CASES...>;
 };
 }

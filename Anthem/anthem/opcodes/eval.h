@@ -5,18 +5,16 @@
 #include "..\containers\list.h"
 #include "set.h"
 #include "var.h"
-#include "opcode_utils.h"
+#include "..\utils\split_string.h"
 
 namespace anthem {
-
 namespace opcode_s {
-const int eval_ignore = 0xDEAD;
 template<typename OPCODE, typename LEFT, typename RIGHT>
 struct eval_s {
 	struct not_implemented_t;
 	using value = not_implemented_t;
 };
-}
+}//namespace anthem::opcode_s
 
 namespace opcodes {
 
@@ -44,17 +42,16 @@ template<
 	typename LEFT, typename RIGHT,
 	typename OPCODE, int PRECEDENCE_,
 	typename NEXT_1, typename NEXT_2,
-	typename... REST>
-	struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
+	typename... REST
+>struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
 	INPUT<LEFT, evaluable<OPCODE, PRECEDENCE_>, RIGHT, NEXT_1, NEXT_2, REST... >> {
-
 	using value = typename eval_parse_impl<
 		PRECEDENCE,
 		RESULT<RESULT_ELEMS..., LEFT, evaluable<OPCODE, PRECEDENCE_>>,
 		INPUT<RIGHT, NEXT_1, NEXT_2, REST...>>::value;
 };
 
-//right precendence - eval
+//matching precendence - eval
 template<
 	int PRECEDENCE,
 	template<typename...> typename RESULT,
@@ -63,10 +60,10 @@ template<
 	typename LEFT, typename RIGHT,
 	typename OPCODE,
 	typename NEXT_1, typename NEXT_2,
-	typename... REST>
-	struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
+	typename... REST
+>struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
 	INPUT<LEFT, evaluable<OPCODE, PRECEDENCE>, RIGHT, NEXT_1, NEXT_2, REST...> > {
-
+	
 	using value = typename eval_parse_impl<
 		PRECEDENCE,
 		RESULT<RESULT_ELEMS...>,
@@ -86,24 +83,22 @@ template<
 	typename... RESULT_ELEMS,
 	typename LEFT, typename RIGHT,
 	typename OPCODE, int PRECEDENCE_
->struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>, INPUT<LEFT,
-	evaluable<OPCODE, PRECEDENCE_>, RIGHT>> {
-
+>struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
+	INPUT<LEFT, evaluable<OPCODE, PRECEDENCE_>, RIGHT>> {
 	using value = RESULT<RESULT_ELEMS..., LEFT, evaluable<OPCODE, PRECEDENCE_>, RIGHT>;
 };
 
 //end case
-//right precendence - eval
+//matching precendence - eval
 template<
 	int PRECEDENCE,
 	template<typename...> typename RESULT,
 	template<typename...> typename INPUT,
 	typename... RESULT_ELEMS,
 	typename LEFT, typename RIGHT,
-	typename OPCODE>
-	struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
+	typename OPCODE
+>struct eval_parse_impl<PRECEDENCE, RESULT<RESULT_ELEMS...>,
 	INPUT<LEFT, evaluable<OPCODE, PRECEDENCE>, RIGHT>> {
-
 	using value = RESULT<RESULT_ELEMS...,
 		//evaluation of an opcode
 		typename opcode_s::eval_s<OPCODE, LEFT, RIGHT>>;
@@ -169,19 +164,17 @@ private:
 public:
 	using value = typename opcode_s::eval_s<OPCODE, ev_left, ev_right>::value;
 };
-}
-}
 
+}//namespace anthem::opcodes::detail
+}//namespace anthem::opcodes
 
-//compilation
-//DEFINE_ANTHEM_STACKED_OPCODE(opcodes::eval);
 
 template<typename... OPCODES>
-struct anthem_compilation<opcodes::end_eval, OPCODES...>
-	: public anthem_compilation<OPCODES...>
+struct anthem_parse<opcodes::end_eval, OPCODES...>
+	: public anthem_parse<OPCODES...>
 {
 public:
-	using previous_state = anthem_compilation<OPCODES...>;
+	using previous_state = anthem_parse<OPCODES...>;
 private:
 	using stack_till_eval = typename previous_state::stack
 		::template split<opcodes::eval>;
@@ -198,17 +191,11 @@ template<typename... OPCODES,
 	typename EVAL_P
 >struct anthem<opcodes::evaluable_expr<EVAL_P>, OPCODES...>
 	: public anthem<
-		opcode_s::set_s<opcodes::var<ANTHEM_STRING_SPLIT("@EVAL")>, 
-			typename opcodes::detail
-			::evaluator<EVAL_P, anthem<OPCODES...>>::value>,
+	opcode_s::set_s<opcodes::var<ANTHEM_STRING_SPLIT("@EVAL")>,
+	typename opcodes::detail
+	::evaluator<EVAL_P, anthem<OPCODES...>>::value>,
 	OPCODES...> {
 };
 
-////implementation
-//template<typename... OPCODES,
-//	typename VALUE, typename TAG>
-//	struct anthem<opcode_s::set_s<VALUE, TAG>, opcodes::set, OPCODES...> : public anthem<OPCODES...> {
-//	using previous_state = anthem<OPCODES...>;
-//	using variable_map = typename previous_state::variable_map::template set<TAG, VALUE>;
-//};
-}
+
+}//namespace anthem

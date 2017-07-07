@@ -28,9 +28,6 @@
     <Filter Include="Header Files\anthem_test">
       <UniqueIdentifier>{951fa646-82cf-4b46-a615-bd262d7e5274}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\anthem\opcodes\transformation">
-      <UniqueIdentifier>{53d69692-e082-45f7-af5a-27f73e7569b3}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -54,9 +51,6 @@
     <ClInclude Include="anthem\opcodes\var.h">
       <Filter>Header Files\anthem\opcodes</Filter>
     </ClInclude>
-    <ClInclude Include="anthem\utils\macro_utils.h">
-      <Filter>Header Files\anthem\utils</Filter>
-    </ClInclude>
     <ClInclude Include="anthem\utils\utils.h">
       <Filter>Header Files\anthem\utils</Filter>
     </ClInclude>
@@ -66,28 +60,10 @@
     <ClInclude Include="anthem\containers\pair.h">
       <Filter>Header Files\anthem\containers</Filter>
     </ClInclude>
-    <ClInclude Include="anthem\opcodes\init.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
-    <ClInclude Include="anthem\opcodes\stack_opcode.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
-    <ClInclude Include="anthem\opcodes\transformation.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
     <ClInclude Include="anthem\containers\map.h">
       <Filter>Header Files\anthem\containers</Filter>
     </ClInclude>
-    <ClInclude Include="anthem\opcodes\transformation\structures.h">
-      <Filter>Header Files\anthem\opcodes\transformation</Filter>
-    </ClInclude>
-    <ClInclude Include="anthem\opcodes\tag.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
     <ClInclude Include="anthem\opcodes\set.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
-    <ClInclude Include="anthem\opcodes\skip_until.h">
       <Filter>Header Files\anthem\opcodes</Filter>
     </ClInclude>
     <ClInclude Include="anthem\utils\anthem_adapter.h">
@@ -103,9 +79,6 @@
       <Filter>Header Files\anthem\opcodes</Filter>
     </ClInclude>
     <ClInclude Include="anthem\opcodes\equals.h">
-      <Filter>Header Files\anthem\opcodes</Filter>
-    </ClInclude>
-    <ClInclude Include="anthem\opcodes\opcode_utils.h">
       <Filter>Header Files\anthem\opcodes</Filter>
     </ClInclude>
     <ClInclude Include="anthem\opcodes\and.h">
@@ -124,6 +97,9 @@
   <ItemGroup>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="anthem\utils\split_string.h">
+      <Filter>Header Files\anthem\utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
