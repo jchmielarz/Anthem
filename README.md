@@ -9,7 +9,7 @@ ANTHEM_SCRIPT_BEGIN
     THEN
         SET VAR(float_t) float,
     ELSE
-		SET VAR(float_t) void,
+        SET VAR(float_t) void,
     END_IF
 ANTHEM_SCRIPT_END
 
