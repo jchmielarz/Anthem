@@ -105,18 +105,18 @@ private:
 		using namespace anthem::opcode_s;
 
 		using simple_comp = anthem_parse_adapter<
-			set, VAR(test), int,
-			set, VAR(test), float,
-			set, VAR(test2), list<int, float, bool>
+			set, VAR_(test), int,
+			set, VAR_(test), float,
+			set, VAR_(test2), list<int, float, bool>
 		>::compilation;
 		using anth = simple_comp::anthem;
 
 		static_assert(
 			std::is_same_v<
-				anth::variable_map::get_value<VAR(test)>,
+				anth::variable_map::get_value<VAR_(test)>,
 				float> &&
 			std::is_same_v<
-				anth::variable_map::get_value<VAR(test2)>,
+				anth::variable_map::get_value<VAR_(test2)>,
 				list<int, float, bool>>,
 			"anthem::set broke");
 
@@ -162,7 +162,7 @@ private:
 			end_eval
 		>::compilation::anthem;
 		using eval_result_true = 
-			eval_comp_true::variable_map::get_value<VAR(@EVAL)>;
+			eval_comp_true::variable_map::get_value<VAR_(@EVAL)>;
 
 		//int == bool && float == float
 		using eval_comp_false = anthem_parse_adapter<
@@ -173,7 +173,7 @@ private:
 			end_eval
 		>::compilation::anthem;
 		using eval_result_false =
-			eval_comp_false::variable_map::get_value<VAR(@EVAL)>;
+			eval_comp_false::variable_map::get_value<VAR_(@EVAL)>;
 
 		static_assert(
 			eval_result_true::value &&
@@ -192,31 +192,31 @@ private:
 		//var test_float = float
 		//test_int == int && float == test_float && true
 		using eval_comp_true = anthem_parse_adapter<
-			set, VAR(test_int), int,
-			set, VAR(test_float), float,
+			set, VAR_(test_int), int,
+			set, VAR_(test_float), float,
 			eval,
-				VAR(test_int), equals, int,
+				VAR_(test_int), equals, int,
 					and,
-				float, equals, VAR(test_float),
+				float, equals, VAR_(test_float),
 					and,
 				std::true_type,
 			end_eval
 		>::compilation::anthem;
-		using eval_result_true = eval_comp_true::variable_map::get_value<VAR(@EVAL)>;
+		using eval_result_true = eval_comp_true::variable_map::get_value<VAR_(@EVAL)>;
 
 		//var test_bool = bool
 		//var test_float = float
 		//test_bool == int && float == test_float
 		using eval_comp_false = anthem_parse_adapter<
-			set, VAR(test_bool), bool,
-			set, VAR(test_float), float,
+			set, VAR_(test_bool), bool,
+			set, VAR_(test_float), float,
 			eval,
-				VAR(test_bool), equals, int,
+				VAR_(test_bool), equals, int,
 					and,
-				float, equals, VAR(test_float),
+				float, equals, VAR_(test_float),
 			end_eval
 		>::compilation::anthem;
-		using eval_result_false = eval_comp_false::variable_map::get_value<VAR(@EVAL)>;
+		using eval_result_false = eval_comp_false::variable_map::get_value<VAR_(@EVAL)>;
 
 		static_assert(
 			eval_result_true::value &&
@@ -235,12 +235,12 @@ private:
 
 		using eval_comp_true = typename anthem_parse_adapter<
 			block,
-				set, VAR(test_int), int,
-				set, VAR(test_float), float,
+				set, VAR_(test_int), int,
+				set, VAR_(test_float), float,
 				eval,
-					VAR(test_int), equals, int,
+					VAR_(test_int), equals, int,
 						and,
-					float, equals, VAR(test_float),
+					float, equals, VAR_(test_float),
 						and,
 					std::true_type,
 				end_eval,
@@ -249,16 +249,16 @@ private:
 
 		using eval_block_order = typename anthem_parse_adapter<
 			block,
-				set, VAR(test), int,
-				set, VAR(test), float,
+				set, VAR_(test), int,
+				set, VAR_(test), float,
 			end_block
 		>::compilation::anthem;
 		using test = typename
-			eval_block_order::variable_map::get_value<VAR(test)>;
+			eval_block_order::variable_map::get_value<VAR_(test)>;
 				
 		static_assert(
 			eval_comp_true
-				::variable_map::get_value<VAR(@EVAL)>::value &&
+				::variable_map::get_value<VAR_(@EVAL)>::value &&
 			std::is_same_v<test, float>,
 			"block broke");
 
@@ -281,35 +281,35 @@ private:
 
 		using if_test = typename anthem_parse_adapter<
 			//true case
-			set, VAR(int), int,
+			set, VAR_(int), int,
 			if_, 
-				eval, VAR(int), equals, int, end_eval,
+				eval, VAR_(int), equals, int, end_eval,
 				block,
-					set, VAR(test_float), float,
+					set, VAR_(test_float), float,
 				end_block,
 				//else
 				eval, float, equals, float, end_eval,
 				block,
-					set, VAR(test_float), bool,
+					set, VAR_(test_float), bool,
 				end_block,
 			end_if,
 			//false case
 			if_,
-				eval, VAR(int), equals, float, end_eval,
+				eval, VAR_(int), equals, float, end_eval,
 				block,
-					set, VAR(test_bool), float,
+					set, VAR_(test_bool), float,
 				end_block,
 				//else
 				eval, float, equals, float, end_eval,
 				block,
-					set, VAR(test_bool), bool,
+					set, VAR_(test_bool), bool,
 				end_block,
 			end_if
 		>::compilation::anthem;
 
 		
-		using test_float = if_test::variable_map::get_value<VAR(test_float)>;
-		using test_bool = if_test::variable_map::get_value<VAR(test_bool)>;
+		using test_float = if_test::variable_map::get_value<VAR_(test_float)>;
+		using test_bool = if_test::variable_map::get_value<VAR_(test_bool)>;
 
 		static_assert(
 			std::is_same_v<test_float, float>&&
@@ -320,13 +320,13 @@ private:
 	static void anthem_if_test_macro() {
 		using macro_test =
 		ANTHEM_SCRIPT_BEGIN
-			SET VAR(int_t), int,
+			SET VAR(int_t) int,
 
-			IF VAR(int_t), EQUALS int, 
+			IF VAR(int_t) EQUALS int, 
 			THEN
-				SET VAR(float_t), float,
+				SET VAR(float_t) float,
 			ELSE THEN
-				SET VAR(float_t), void,
+				SET VAR(float_t) void,
 			END_IF
 		ANTHEM_SCRIPT_END
 

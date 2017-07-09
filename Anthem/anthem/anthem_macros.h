@@ -11,7 +11,8 @@
 #define ANTHEM_GET_VAR(anthem_script, tag) typename anthem_script::variable_map::get_value<anthem::opcodes::var<ANTHEM_STRING_SPLIT(#tag)>>
 
 //opcodes
-#define VAR(a) anthem::opcodes::var<ANTHEM_STRING_SPLIT(#a)>
+#define VAR(a) anthem::opcodes::var<ANTHEM_STRING_SPLIT(#a)>,
+#define VAR_(a) anthem::opcodes::var<ANTHEM_STRING_SPLIT(#a)>
 
 #define BLOCK anthem::opcodes::block,
 #define END_BLOCK anthem::opcodes::end_block,
