@@ -4,7 +4,7 @@
 ```cpp
 using macro_test =
 ANTHEM_SCRIPT_BEGIN
-	SET VAR(int_t) int,
+    SET VAR(int_t) int,
     IF VAR(int_t) EQUALS int,
     THEN
         SET VAR(float_t) float,
