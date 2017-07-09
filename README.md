@@ -4,12 +4,12 @@
 ```cpp
 using macro_test =
 ANTHEM_SCRIPT_BEGIN
-    SET VAR(int_t), int,
-    IF VAR(int_t), EQUALS int,
+	SET VAR(int_t) int,
+    IF VAR(int_t) EQUALS int,
     THEN
-        SET VAR(float_t), float,
+        SET VAR(float_t) float,
     ELSE
-	SET VAR(float_t), void,
+		SET VAR(float_t) void,
     END_IF
 ANTHEM_SCRIPT_END
 
